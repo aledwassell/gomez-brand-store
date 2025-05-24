@@ -1,15 +1,14 @@
-import logo from "./logo.svg";
 import styles from "./App.module.css";
-import Card from "./components/Card";
-import Counter from "./components/Counter";
+import QuickCart from "./components/QuickCart";
 
 function App() {
   return (
     <div class={styles.App}>
       <header class={styles.header}>
-        <Card />
-        <Counter />
+        <QuickCart class="ml-auto" text="Cart" />
       </header>
+      <main class="flex-1">main</main>
+      <footer class={styles.footer}>footer</footer>
     </div>
   );
 }
