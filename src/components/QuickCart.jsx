@@ -1,11 +1,19 @@
 import { createEffect, createSignal, Show } from "solid-js";
+import { FaSolidCartShopping } from "solid-icons/fa";
 
-function QuickCart(props) {
+function QuickCart() {
   let openButton;
   let quickCart;
   const [isOpen, setIsOpen] = createSignal(false);
-  const [items, setItems] = createSignal([]); // You can populate this with actual cart items
-  const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 }); // You can populate this with actual cart items
+  const [items, setItems] = createSignal([]);
+  const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
+
+  setItems([
+    { name: "T-shirt", price: 12.95 },
+    { name: "Gomez", price: 10 },
+    { name: "Gomez Hat", price: 23 },
+    { name: "Zemog Wizard Hat", price: 23 },
+  ]);
 
   createEffect(() => {
     if (isOpen() && openButton && quickCart) {
@@ -23,15 +31,15 @@ function QuickCart(props) {
       <button
         ref={openButton}
         onClick={() => setIsOpen(!isOpen())}
-        class="ml-auto h-10 w-10 rounded-4xl shadow-amber-400 shadow-2xl flex items-center justify-center"
+        class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer"
       >
-        {props.text}
+        <FaSolidCartShopping />
       </button>
 
       <Show when={isOpen()}>
         <div
           ref={quickCart}
-          class="fixed bg-white rounded-lg p-4 w-80 max-h-[80vh] flex flex-col"
+          class="fixed bg-white p-4 w-80 max-h-[80vh] flex flex-col"
           style={{
             top: `${cartPosition().top}px`,
             left: `${cartPosition().left}px`,
@@ -42,7 +50,7 @@ function QuickCart(props) {
             <h3 class="text-lg font-semibold">Quick Cart</h3>
             <button
               onClick={() => setIsOpen(false)}
-              class="text-gray-500 hover:text-gray-700"
+              class="text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               ✕
             </button>
@@ -52,7 +60,7 @@ function QuickCart(props) {
             {items().length === 0 ? (
               <p class="text-gray-500 text-center py-4">Your cart is empty</p>
             ) : (
-              <ul class="space-y-2">
+              <ul class="space-y-2 text-gray-500">
                 {items().map((item) => (
                   <li class="flex justify-between items-center p-2 border-b">
                     <span>{item.name}</span>
@@ -65,14 +73,14 @@ function QuickCart(props) {
 
           <div class="mt-4 pt-4 border-t">
             <button
-              class="w-full bg-amber-400 text-white py-2 rounded-lg hover:bg-amber-500 transition-colors"
+              class="w-full text-white py-2 hover:bg-slate-900 transition-colors bg-black cursor-pointer"
               onClick={() => {
-                console.log(openButton.getBoundingClientRect());
+                console.log("Navigate to the cart page");
                 // Navigate to full cart page
                 // window.location.href = "/cart";
               }}
             >
-              Go to Cart
+              Checkout
             </button>
           </div>
         </div>
