@@ -1,14 +1,17 @@
 import styles from "./App.module.css";
 import QuickCart from "./components/QuickCart";
+import Products from "./components/Products";
 
 function App() {
   return (
     <div class={styles.App}>
-      <header class={styles.header}>
+      <header>
         <QuickCart class="ml-auto" text="Cart" />
       </header>
-      <main class="flex-1">main</main>
-      <footer class={styles.footer}>footer</footer>
+      <main class="flex-1 flex items-center justify-center">
+        <Products />
+      </main>
+      <footer></footer>
     </div>
   );
 }
