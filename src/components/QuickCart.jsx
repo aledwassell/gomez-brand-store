@@ -1,12 +1,22 @@
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, createSignal, Show, onCleanup } from "solid-js";
 import { FaSolidCartShopping } from "solid-icons/fa";
 
 function QuickCart() {
-  let openButton;
-  let quickCart;
+  let triggerRef;
+  let quickCartRef;
   const [isOpen, setIsOpen] = createSignal(false);
   const [items, setItems] = createSignal([]);
   const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
+
+  const handleClickOutside = (event) => {
+    if (
+      isOpen() &&
+      !quickCartRef?.contains(event.target) &&
+      !triggerRef?.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
 
   setItems([
     { name: "T-shirt", price: 12.95 },
@@ -16,20 +26,27 @@ function QuickCart() {
   ]);
 
   createEffect(() => {
-    if (isOpen() && openButton && quickCart) {
-      const buttonRect = openButton.getBoundingClientRect();
+    if (isOpen() && triggerRef && quickCartRef) {
+      document.addEventListener("mousedown", handleClickOutside);
+      const buttonRect = triggerRef.getBoundingClientRect();
 
       setCartPosition({
         top: buttonRect.bottom,
-        left: buttonRect.left - quickCart.offsetWidth,
+        left: buttonRect.left - quickCartRef.offsetWidth,
       });
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
     }
+  });
+
+  onCleanup(() => {
+    document.removeEventListener("mousedown", handleClickOutside);
   });
 
   return (
     <>
       <button
-        ref={openButton}
+        ref={triggerRef}
         onClick={() => setIsOpen(!isOpen())}
         class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer"
       >
@@ -38,7 +55,7 @@ function QuickCart() {
 
       <Show when={isOpen()}>
         <div
-          ref={quickCart}
+          ref={quickCartRef}
           class="fixed bg-white p-4 w-80 max-h-[80vh] flex flex-col"
           style={{
             top: `${cartPosition().top}px`,
@@ -73,7 +90,7 @@ function QuickCart() {
 
           <div class="mt-4 pt-4 border-t">
             <button
-              class="w-full text-white py-2 hover:bg-slate-900 transition-colors bg-black cursor-pointer"
+              class="w-full btn"
               onClick={() => {
                 console.log("Navigate to the cart page");
                 // Navigate to full cart page
