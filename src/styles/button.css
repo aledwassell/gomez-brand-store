@@ -1,33 +1,17 @@
 /* TODO This is copied, need to style these properly */
 
 .btn {
-    @apply cursor-pointer gap-2 rounded-3xl bg-emerald-500 px-4 py-2 font-bold text-slate-100 shadow-sm transition-all duration-300;
+  @apply text-white py-2 bg-black cursor-pointer gap-2 font-bold shadow-sm transition-all duration-300;
 }
 
 .btn:focus {
-    @apply ring-2 ring-gray-500 ring-offset-2 outline-none;
+  @apply ring-2 ring-gray-500 ring-offset-2 outline-none;
 }
 
 .btn:hover {
-    @apply scale-105 bg-emerald-200 text-emerald-500;
+  @apply bg-slate-900;
 }
 
 .btn:disabled {
-    @apply cursor-not-allowed bg-emerald-50 text-slate-700;
-}
-
-.btn--hollow {
-    @apply border-2 border-emerald-500 bg-transparent text-emerald-500;
-}
-
-.btn--underline {
-    @apply bg-transparent text-emerald-500 shadow-none;
-
-    &:hover {
-        @apply bg-transparent text-emerald-500 underline;
-    }
-
-    &:focus {
-        @apply ring-0 ring-transparent ring-offset-0 bg-emerald-50/5;
-    }
+  @apply cursor-not-allowed bg-emerald-50 text-slate-700;
 }
