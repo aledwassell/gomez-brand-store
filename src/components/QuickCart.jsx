@@ -1,5 +1,9 @@
 import { createEffect, createSignal, Show, onCleanup } from "solid-js";
-import { FaSolidCartShopping } from "solid-icons/fa";
+import {
+  FaSolidCartShopping,
+  FaSolidSquarePlus,
+  FaSolidSquareMinus,
+} from "solid-icons/fa";
 
 function QuickCart() {
   let triggerRef;
@@ -19,10 +23,10 @@ function QuickCart() {
   };
 
   setItems([
-    { name: "T-shirt", price: 12.95 },
-    { name: "Gomez", price: 10 },
-    { name: "Gomez Hat", price: 23 },
-    { name: "Zemog Wizard Hat", price: 23 },
+    { name: "T-shirt", price: 12.95, amount: 1 },
+    { name: "Gomez", price: 10, amount: 1 },
+    { name: "Gomez Hat", price: 23, amount: 1 },
+    { name: "Zemog Wizard Hat", price: 23, amount: 1 },
   ]);
 
   createEffect(() => {
@@ -78,10 +82,49 @@ function QuickCart() {
               <p class="text-gray-500 text-center py-4">Your cart is empty</p>
             ) : (
               <ul class="space-y-2 text-gray-500">
-                {items().map((item) => (
-                  <li class="flex justify-between items-center p-2 border-b">
-                    <span>{item.name}</span>
-                    <span>${item.price}</span>
+                {items().map((item, itemIndex) => (
+                  <li class="flex items-center p-2 border-b gap-1">
+                    <span class="mr-auto">{item.name}</span>
+                    <span class="mr-2">
+                      ${Math.floor(item.price * item.amount * 100) / 100}
+                    </span>
+                    <button
+                      onClick={() => {
+                        const item = items().find(
+                          (_, index) => index === itemIndex
+                        );
+                        if (item.amount <= 1) {
+                          return setItems((items) =>
+                            items.filter((_, index) => index !== itemIndex)
+                          );
+                        }
+
+                        setItems(
+                          items().map((thing, index) => {
+                            if (index !== itemIndex) return thing;
+                            return { ...thing, amount: thing.amount - 1 };
+                          })
+                        );
+                      }}
+                    >
+                      <FaSolidSquareMinus />
+                    </button>
+                    <span class="w-4">{item && item.amount}</span>
+                    <button
+                      onClick={() =>
+                        setItems(
+                          items().map((thing, index) => {
+                            if (index === itemIndex && thing.amount < 5) {
+                              return { ...thing, amount: thing.amount + 1 };
+                            }
+
+                            return thing;
+                          })
+                        )
+                      }
+                    >
+                      <FaSolidSquarePlus />
+                    </button>
                   </li>
                 ))}
               </ul>
