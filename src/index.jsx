@@ -6,7 +6,7 @@ import App from "./App";
 import { Router, Route } from "@solidjs/router";
 
 import Products from "./pages/Products";
-const ProductPage = lazy(() => import("./pages/ProductPage"));
+const Product = lazy(() => import("./pages/Product"));
 import NotFound from "./pages/NotFound";
 
 const root = document.getElementById("root");
@@ -21,7 +21,7 @@ render(
   () => (
     <Router root={App}>
       <Route path="/" component={Products} />
-      <Route path="/:id" component={ProductPage} />
+      <Route path="/:id" component={Product} />
       <Route path="*404" component={NotFound} />
     </Router>
   ),

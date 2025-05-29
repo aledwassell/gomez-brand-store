@@ -1,7 +1,7 @@
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
 
-function Product(props) {
+function ProductCard(props) {
   const [isHovered, setIsHovered] = createSignal(false);
 
   return (
@@ -25,4 +25,4 @@ function Product(props) {
   );
 }
 
-export default Product;
+export default ProductCard;
