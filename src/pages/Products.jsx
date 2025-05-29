@@ -1,5 +1,5 @@
 import { createSignal } from "solid-js";
-import Product from "./Product";
+import Product from "../components/Product";
 
 function Products() {
   const [items, setItems] = createSignal([]);

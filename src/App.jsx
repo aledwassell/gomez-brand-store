@@ -1,15 +1,14 @@
 import styles from "./App.module.css";
 import QuickCart from "./components/QuickCart";
-import Products from "./components/Products";
 
-function App() {
+function App(props) {
   return (
     <div class={styles.App}>
       <header>
         <QuickCart class="ml-auto" text="Cart" />
       </header>
       <main class="flex-1 flex items-center justify-center">
-        <Products />
+        {props.children}
       </main>
       <footer></footer>
     </div>
