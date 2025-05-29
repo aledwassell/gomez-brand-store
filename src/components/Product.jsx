@@ -10,7 +10,7 @@ function Product(props) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <A href="/this-is-cool" class="cursor-pointer">
+      <A href={`/${props.id}`} class="cursor-pointer">
         <img
           src={isHovered() ? props.hoverImage : props.defaultImage}
           alt={isHovered() ? "Hovered image" : "Default image"}
