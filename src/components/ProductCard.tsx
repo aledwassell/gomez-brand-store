@@ -1,7 +1,8 @@
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
+import { Product } from "~/models/Product.model";
 
-function ProductCard(props) {
+function ProductCard(props: Product) {
   const [isHovered, setIsHovered] = createSignal(false);
 
   return (
