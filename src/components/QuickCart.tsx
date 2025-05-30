@@ -1,50 +1,48 @@
-import { createEffect, createSignal, Show, onCleanup } from "solid-js";
+import { createEffect, createSignal, Show, onMount } from "solid-js";
 import {
   FaSolidCartShopping,
   FaSolidSquarePlus,
   FaSolidSquareMinus,
 } from "solid-icons/fa";
+import { products } from "~/constants/Products";
+import { Product } from "~/models/Product.model";
 
 function QuickCart() {
-  let triggerRef;
-  let quickCartRef;
+  let triggerRef: HTMLButtonElement | undefined;
+  let quickCartRef: HTMLDivElement | undefined;
+
   const [isOpen, setIsOpen] = createSignal(false);
-  const [items, setItems] = createSignal([]);
+  const [items, setItems] = createSignal<Product[]>([]);
   const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
 
-  const handleClickOutside = (event) => {
-    if (
-      isOpen() &&
-      !quickCartRef?.contains(event.target) &&
-      !triggerRef?.contains(event.target)
-    ) {
-      setIsOpen(false);
-    }
-  };
+  setItems(products);
 
-  setItems([
-    { name: "T-shirt", price: 12.95, amount: 1 },
-    { name: "Gomez", price: 10, amount: 1 },
-    { name: "Gomez Hat", price: 23, amount: 1 },
-    { name: "Zemog Wizard Hat", price: 23, amount: 1 },
-  ]);
+  onMount(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen() &&
+        !quickCartRef?.contains(event.target as Node) &&
+        !triggerRef?.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
 
   createEffect(() => {
     if (isOpen() && triggerRef && quickCartRef) {
-      document.addEventListener("mousedown", handleClickOutside);
       const buttonRect = triggerRef.getBoundingClientRect();
-
       setCartPosition({
         top: buttonRect.bottom,
         left: buttonRect.left - quickCartRef.offsetWidth,
       });
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
-  });
-
-  onCleanup(() => {
-    document.removeEventListener("mousedown", handleClickOutside);
   });
 
   return (
@@ -93,7 +91,7 @@ function QuickCart() {
                         const item = items().find(
                           (_, index) => index === itemIndex
                         );
-                        if (item.amount <= 1) {
+                        if (item!.amount <= 1) {
                           return setItems((items) =>
                             items.filter((_, index) => index !== itemIndex)
                           );
