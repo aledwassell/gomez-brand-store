@@ -12,8 +12,9 @@
     "deploy": "npm run build && firebase deploy"
   },
   "devDependencies": {
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.4.1"
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^3.4.17"
   },
   "dependencies": {
     "@solidjs/meta": "^0.29.4",
