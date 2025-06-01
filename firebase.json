@@ -1,25 +1,24 @@
 {
-  "hosting": [
-    {
-      "source": ".",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**",
-        "**/.git/**",
-        "**/.github/**"
-      ],
-      "frameworksBackend": {
-        "region": "europe-west1"
-      },
-      "rewrites": [
-        {
-          "source": "**",
-          "function": "ssr"
-        }
-      ]
-    }
-  ],
+  "hosting": {
+    "site": "gomez-brand-store",
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/.git/**",
+      "**/.github/**"
+    ],
+    "frameworksBackend": {
+      "region": "europe-west1"
+    },
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "ssr"
+      }
+    ]
+  },
   "functions": [
     {
       "source": ".",
