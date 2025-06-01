@@ -25,7 +25,6 @@ jobs:
         run: npm i
 
       - name: Deploy to Firebase
-        if: github.ref == 'refs/heads/main'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
