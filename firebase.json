@@ -1,44 +1,36 @@
 {
-  "hosting": {
-    "source": ".",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-      "**/.git/**",
-      "**/.github/**"
-    ],
-    "frameworksBackend": {
-      "region": "europe-west1",
-      "runtime": "nodejs20"
-    },
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "ssr"
-      }
-    ]
-  },
+  "hosting": [
+    {
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "**/.git/**",
+        "**/.github/**"
+      ],
+      "frameworksBackend": {
+        "region": "europe-west1"
+      },
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "ssr"
+        }
+      ]
+    }
+  ],
   "functions": [
     {
       "source": ".",
-      "runtime": "nodejs20",
-      "codebase": "default"
-    },
-    {
-      "source": "gomez-brand-store",
-      "codebase": "gomez-brand-store",
+      "codebase": "default",
       "ignore": [
         "node_modules",
         ".git",
         "firebase-debug.log",
-        "firebase-debug.*.log",
-        "*.local"
+        "firebase-debug.*.log"
       ],
-      "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run lint",
-        "npm --prefix \"$RESOURCE_DIR\" run build"
-      ]
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build"]
     }
   ]
 }
