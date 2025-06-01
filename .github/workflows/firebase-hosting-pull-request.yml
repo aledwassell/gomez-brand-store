@@ -7,7 +7,6 @@ permissions:
   checks: write
   contents: read
   pull-requests: write
-
 jobs:
   build_and_preview:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
@@ -30,9 +29,8 @@ jobs:
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOMEZ_BRAND_STORE }}
           projectId: gomez-brand-store
-          channelId: pr${{ github.event.pull_request.number }}-solidStart
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
