@@ -1,12 +1,8 @@
 import { defineConfig } from "@solidjs/start/config";
 
 export default defineConfig({
-  ssr: true,
+  ssr: false,
   server: {
     preset: "firebase",
-    firebase: {
-      gen: 2,
-      nodeVersion: "20",
-    },
   },
 });

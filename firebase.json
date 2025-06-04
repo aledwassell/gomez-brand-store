@@ -1,7 +1,8 @@
 {
   "hosting": {
     "site": "gomez-brand-store",
-    "source": ".",
+    "public": ".output/public",
+    "cleanUrls": true,
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,27 +10,7 @@
       "**/.git/**",
       "**/.github/**"
     ],
-    "frameworksBackend": {
-      "region": "europe-west1"
-    },
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "ssr"
-      }
-    ]
+    "rewrites": [{ "source": "**", "function": "server" }]
   },
-  "functions": [
-    {
-      "source": ".",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log"
-      ],
-      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build"]
-    }
-  ]
+  "functions": { "source": ".output/server" }
 }
