@@ -1,26 +1,30 @@
 {
-  "name": "vite-template-solid",
+  "name": "gomez-brand-store",
   "version": "0.0.0",
   "description": "",
   "type": "module",
-  "scripts": {
-    "start": "vite",
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
   "license": "MIT",
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.7",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.7",
-    "vite": "^6.0.0",
-    "vite-plugin-solid": "^2.11.6"
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "version": "vinxi version",
+    "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
-    "@solidjs/router": "^0.15.3",
-    "@tailwindcss/vite": "^4.1.7",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.0",
+    "@solidjs/start": "^1.1.0",
     "solid-icons": "^1.1.0",
-    "solid-js": "^1.9.5"
+    "solid-js": "^1.9.5",
+    "vinxi": "^0.5.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.8",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.8"
   }
 }
