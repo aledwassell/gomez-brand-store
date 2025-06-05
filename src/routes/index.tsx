@@ -1,29 +1,19 @@
-import { createSignal } from "solid-js";
 import { Title } from "@solidjs/meta";
-
-import ProductCard from "~/components/ProductCard";
-import { Product } from "~/models/Product.model";
-import { products } from "~/constants/Products";
+import Counter from "~/components/Counter";
 
 export default function Home() {
-  const [items, setItems] = createSignal<Product[]>([]);
-  setItems(products);
-
   return (
-    <>
-      <Title>I am Gomez</Title>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
-        {items().map((item) => (
-          <ProductCard
-            id={item.id}
-            name={item.name}
-            price={item.price}
-            defaultImage={item.defaultImage}
-            amount={0}
-            hoverImage={item.hoverImage}
-          />
-        ))}
-      </div>
-    </>
+    <main>
+      <Title>Hello World</Title>
+      <h1>Hello world!</h1>
+      <Counter />
+      <p>
+        Visit{" "}
+        <a href="https://start.solidjs.com" target="_blank">
+          start.solidjs.com
+        </a>{" "}
+        to learn how to build SolidStart apps.
+      </p>
+    </main>
   );
 }
