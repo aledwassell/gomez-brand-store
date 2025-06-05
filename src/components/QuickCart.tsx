@@ -1,6 +1,11 @@
 import { createEffect, createSignal, Show, onMount } from "solid-js";
 import { products } from "~/constants/Products";
 import { Product } from "~/models/Product.model";
+import {
+  FaSolidCartShopping,
+  FaSolidSquarePlus,
+  FaSolidSquareMinus,
+} from "solid-icons/fa";
 
 function QuickCart() {
   let triggerRef: HTMLButtonElement | undefined;
@@ -47,7 +52,7 @@ function QuickCart() {
         onClick={() => setIsOpen(!isOpen())}
         class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer"
       >
-        cart
+        <FaSolidCartShopping />
       </button>
 
       <Show when={isOpen()}>
@@ -100,7 +105,7 @@ function QuickCart() {
                         );
                       }}
                     >
-                      -
+                      <FaSolidSquareMinus />
                     </button>
                     <span class="w-4">{item && item.amount}</span>
                     <button
@@ -116,7 +121,7 @@ function QuickCart() {
                         )
                       }
                     >
-                      +
+                      <FaSolidSquarePlus />
                     </button>
                   </li>
                 ))}
