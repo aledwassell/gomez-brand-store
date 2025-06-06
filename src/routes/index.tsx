@@ -4,6 +4,7 @@ import { Title } from "@solidjs/meta";
 import ProductCard from "~/components/ProductCard";
 import { Product } from "~/models/Product.model";
 import { env } from "~/lib/env";
+import { products } from "~/constants/Products";
 
 const fetchProducts = async (): Promise<Product[]> => {
   "use server";
@@ -20,7 +21,7 @@ const fetchProducts = async (): Promise<Product[]> => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const products = await response.json();
+    // const products = await response.json();
 
     return products;
   } catch (error) {
