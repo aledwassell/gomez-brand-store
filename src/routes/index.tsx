@@ -30,10 +30,18 @@ const fetchProducts = async (): Promise<Product[]> => {
 export default function Home() {
   const [products] = createResource(fetchProducts);
 
+  const logEnv = () => {
+    const apiOrigin = process.env.API_ORIGIN || "http://localhost:3000";
+    console.log(process.env);
+    console.log(import.meta.env);
+    console.log(apiOrigin);
+  };
+
   return (
     <>
       <Title>I am Gomez</Title>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+        <button onClick={logEnv}>log env</button>
         <For each={products()}>{(item) => <ProductCard {...item} />}</For>
 
         <Show when={products.error}>
