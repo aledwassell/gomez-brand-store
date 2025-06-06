@@ -18,7 +18,6 @@ export default function App() {
               </ErrorBoundary>
             </header>
             <Suspense>
-              Well this is finally working
               <main class="flex-1 flex items-center justify-center">
                 {props.children}
               </main>

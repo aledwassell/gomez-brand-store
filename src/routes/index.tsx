@@ -1,19 +1,38 @@
-import { createSignal, For } from "solid-js";
+import { createResource, createSignal, For, Show } from "solid-js";
 import { Title } from "@solidjs/meta";
 
 import ProductCard from "~/components/ProductCard";
 import { Product } from "~/models/Product.model";
-import { products } from "~/constants/Products";
+
+const fetchProducts = async (): Promise<Product[]> => {
+  try {
+    const response = await fetch(`${import.meta.env.API_ORIGIN}/api/products`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const products = await response.json();
+
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
 
 export default function Home() {
-  const [items, setItems] = createSignal<Product[]>([]);
-  setItems(products);
+  const [products] = createResource(fetchProducts);
 
   return (
     <>
       <Title>I am Gomez</Title>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
-        <For each={items()}>{(item) => <ProductCard {...item} />}</For>
+        <For each={products()}>{(item) => <ProductCard {...item} />}</For>
+
+        <Show when={products.error}>
+          <div>Error: {products.error.message}</div>
+        </Show>
       </div>
     </>
   );
