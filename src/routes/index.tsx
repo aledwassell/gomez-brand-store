@@ -4,11 +4,14 @@ import { Title } from "@solidjs/meta";
 import ProductCard from "~/components/ProductCard";
 import { Product } from "~/models/Product.model";
 
+const apiOrigin =
+  process.env.API_ORIGIN ||
+  "http://localhost:3000";
+
 const fetchProducts = async (): Promise<Product[]> => {
+  "use server";
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_ORIGIN}/api/products`
-    );
+    const response = await fetch(`${apiOrigin}/api/products`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
