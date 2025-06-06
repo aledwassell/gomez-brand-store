@@ -9,13 +9,14 @@ const fetchProducts = async (): Promise<Product[]> => {
   const apiOrigin = process.env.API_ORIGIN || "http://localhost:3000";
 
   console.log(process.env);
+  console.log(apiOrigin);
 
   try {
-    const response = await fetch(`${apiOrigin}/api/products`);
+    // const response = await fetch(`${apiOrigin}/api/products`);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! status: ${response.status}`);
+    // }
 
     // const products = await response.json();
 
