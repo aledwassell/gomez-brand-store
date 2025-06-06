@@ -1,17 +1,18 @@
-import { createResource, createSignal, For, Show } from "solid-js";
+import { createResource, For, Show } from "solid-js";
 import { Title } from "@solidjs/meta";
 
 import ProductCard from "~/components/ProductCard";
 import { Product } from "~/models/Product.model";
-import { products } from "~/constants/Products";
 
 const fetchProducts = async (): Promise<Product[]> => {
+  "use server";
   const apiOrigin = import.meta.env.PROD
     ? "https://gomez.aledwassell.workers.dev"
     : "http://localhost:3000";
 
   try {
-    const response = await fetch(`${apiOrigin}/api/products`);
+    const endpoint = `${apiOrigin}/api/products`;
+    const response = await fetch(endpoint);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -32,6 +33,14 @@ export default function Home() {
   return (
     <>
       <Title>I am Gomez</Title>
+      <button
+        class="bg-amber-400 p-6"
+        onClick={() => {
+          console.log(import.meta.env);
+        }}
+      >
+        thing
+      </button>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
         <For each={products()}>{(item) => <ProductCard {...item} />}</For>
 
