@@ -3,15 +3,17 @@ import { Title } from "@solidjs/meta";
 
 import ProductCard from "~/components/ProductCard";
 import { Product } from "~/models/Product.model";
+import { env } from "~/lib/env";
 
 const fetchProducts = async (): Promise<Product[]> => {
   "use server";
-  const apiOrigin = import.meta.env.PROD
-    ? "https://gomez.aledwassell.workers.dev"
-    : "http://localhost:3000";
+  const apiOrigin =
+    env().NODE_ENV === "production"
+      ? "https://gomez.aledwassell.workers.dev"
+      : "http://localhost:3000";
 
   try {
-    const endpoint = `https://gomez.aledwassell.workers.dev/api/products`;
+    const endpoint = `${apiOrigin}/api/products`;
     const response = await fetch(endpoint);
 
     if (!response.ok) {
@@ -37,6 +39,7 @@ export default function Home() {
         class="bg-amber-400 p-6"
         onClick={() => {
           console.log(import.meta.env);
+          console.log(env());
         }}
       >
         thing
