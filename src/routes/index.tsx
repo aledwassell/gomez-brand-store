@@ -6,7 +6,9 @@ import { Product } from "~/models/Product.model";
 
 const fetchProducts = async (): Promise<Product[]> => {
   try {
-    const response = await fetch(`${import.meta.env.API_ORIGIN}/api/products`);
+    const response = await fetch(
+      `${import.meta.env.VITE_API_ORIGIN}/api/products`
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,0 +1,15 @@
+{
+  "name": "gomez-brand-store",
+  "env": {
+    "staging": {
+      "vars": {
+        "API_ORIGIN": "https://gomez.aledwassell.workers.dev/"
+      }
+    },
+    "production": {
+      "vars": {
+        "API_ORIGIN": "iamgomez.shop"
+      }
+    }
+  }
+}
