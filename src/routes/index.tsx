@@ -6,8 +6,8 @@ import { Product } from "~/models/Product.model";
 import { products } from "~/constants/Products";
 
 const fetchProducts = async (): Promise<Product[]> => {
-  const apiOrigin = process.env.PROD
-    ? "https://gomez.aledwassell.workers.dev/"
+  const apiOrigin = import.meta.env.PROD
+    ? "https://gomez.aledwassell.workers.dev"
     : "http://localhost:3000";
 
   try {
