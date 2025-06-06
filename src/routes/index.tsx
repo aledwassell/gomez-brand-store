@@ -11,7 +11,7 @@ const fetchProducts = async (): Promise<Product[]> => {
     : "http://localhost:3000";
 
   try {
-    const endpoint = `${apiOrigin}/api/products`;
+    const endpoint = `https://gomez.aledwassell.workers.dev/api/products`;
     const response = await fetch(endpoint);
 
     if (!response.ok) {
