@@ -1,11 +1,11 @@
 import { createEffect, createSignal, Show, onMount } from "solid-js";
+import { products } from "~/constants/Products";
+import { Product } from "~/models/Product.model";
 import {
   FaSolidCartShopping,
   FaSolidSquarePlus,
   FaSolidSquareMinus,
 } from "solid-icons/fa";
-import { products } from "~/constants/Products";
-import { Product } from "~/models/Product.model";
 
 function QuickCart() {
   let triggerRef: HTMLButtonElement | undefined;
