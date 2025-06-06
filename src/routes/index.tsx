@@ -14,12 +14,12 @@ const fetchProducts = async (): Promise<Product[]> => {
       : "http://localhost:3000";
 
   try {
-    const endpoint = `${apiOrigin}/api/products`;
-    const response = await fetch(endpoint);
+    // const endpoint = `${apiOrigin}/api/products`;
+    // const response = await fetch(endpoint);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! status: ${response.status}`);
+    // }
 
     // const products = await response.json();
 
