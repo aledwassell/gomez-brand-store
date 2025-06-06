@@ -5,9 +5,9 @@ import ProductCard from "~/components/ProductCard";
 import { Product } from "~/models/Product.model";
 
 const fetchProducts = async (): Promise<Product[]> => {
-  "use server";
-
   const apiOrigin = process.env.API_ORIGIN || "http://localhost:3000";
+
+  console.log(process.env);
 
   try {
     const response = await fetch(`${apiOrigin}/api/products`);
