@@ -1,9 +1,7 @@
 import { products } from "~/constants/Products";
-import { env } from "~/lib/env";
 
 export async function GET() {
   try {
-    console.log(env());
     return new Response(JSON.stringify(products), {
       headers: {
         "Content-Type": "application/json",
