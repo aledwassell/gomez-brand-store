@@ -1,39 +1,25 @@
-import { createResource, For, Show } from "solid-js";
+import { ErrorBoundary, For, Show } from "solid-js";
 import { Title } from "@solidjs/meta";
 
 import ProductCard from "~/components/ProductCard";
-import { Product } from "~/models/Product.model";
-
-const fetchProducts = async (): Promise<Product[]> => {
-  try {
-    const endpoint = `https://gomez.aledwassell.workers.dev/api/products`;
-    const response = await fetch(endpoint);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const products = await response.json();
-
-    return products;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    throw error;
-  }
-};
+import { createAsync } from "@solidjs/router";
+import { getProducts } from "~/lib/printful-store";
+import { StoreProducts } from "~/models/printful/store.products.model";
 
 export default function Home() {
-  const [products] = createResource(fetchProducts);
+  const products = createAsync<StoreProducts>(() => getProducts());
 
   return (
     <>
       <Title>I am Gomez</Title>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
-        <For each={products()}>{(item) => <ProductCard {...item} />}</For>
-
-        <Show when={products.error}>
-          <div>Error: {products.error.message}</div>
-        </Show>
+        <ErrorBoundary fallback={(err) => <div>Error: {err.message}</div>}>
+          <Show when={products()} fallback={<div>Loading...</div>}>
+            <For each={products()?.result}>
+              {(product) => <ProductCard {...product} />}
+            </For>
+          </Show>
+        </ErrorBoundary>
       </div>
     </>
   );

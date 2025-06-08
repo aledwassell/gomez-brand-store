@@ -1,5 +1,4 @@
 import { createEffect, createSignal, Show, onMount } from "solid-js";
-import { products } from "~/constants/Products";
 import { Product } from "~/models/Product.model";
 import {
   FaSolidCartShopping,
@@ -14,8 +13,6 @@ function QuickCart() {
   const [isOpen, setIsOpen] = createSignal(false);
   const [items, setItems] = createSignal<Product[]>([]);
   const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
-
-  setItems(products);
 
   onMount(() => {
     const handleClickOutside = (event: MouseEvent) => {
