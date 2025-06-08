@@ -1,6 +1,0 @@
-# Deprecated, might use this in the future but using cloudflare now.
-{
-  "projects": {
-    "default": "gomez-brand-store"
-  }
-}
