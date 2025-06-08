@@ -1,8 +1,8 @@
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
-import { Product } from "~/models/Product.model";
+import { StoreProduct } from "~/models/printful/store.product.model";
 
-function ProductCard(props: Product) {
+function ProductCard(props: StoreProduct) {
   const [isHovered, setIsHovered] = createSignal(false);
 
   return (
@@ -13,14 +13,14 @@ function ProductCard(props: Product) {
     >
       <A href={`/${props.id}`} class="cursor-pointer">
         <img
-          src={isHovered() ? props.hoverImage : props.defaultImage}
+          src={isHovered() ? props.thumbnail_url : props.thumbnail_url}
           alt={isHovered() ? "Hovered image" : "Default image"}
           class="lg:w-80 aspect-square"
         />
       </A>
       <p class="my-4 w-full flex justify-between">
         {props.name}
-        <span class="text-gray-400">${props.price}</span>
+        <span class="text-gray-400">10.99</span>
       </p>
     </div>
   );
