@@ -1,18 +1,16 @@
-import { createEffect, createSignal, Show, onMount } from "solid-js";
-import { Product } from "~/models/Product.model";
-import {
-  FaSolidCartShopping,
-  FaSolidSquarePlus,
-  FaSolidSquareMinus,
-} from "solid-icons/fa";
+import { createEffect, createSignal, Show, onMount, For } from "solid-js";
+
+import { ShoppingCart, SquarePlus, SquareMinus } from "lucide-solid";
+import { setStore, store } from "../store/store";
 
 function QuickCart() {
   let triggerRef: HTMLButtonElement | undefined;
   let quickCartRef: HTMLDivElement | undefined;
 
   const [isOpen, setIsOpen] = createSignal(false);
-  const [items, setItems] = createSignal<Product[]>([]);
   const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
+
+  const items = () => store.shoppingCart;
 
   onMount(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,6 +40,35 @@ function QuickCart() {
     }
   });
 
+  const handleIncrementCartItemCount = (itemIndex: number) => {
+    setStore("shoppingCart", (items) =>
+      items.map((item, index) => {
+        if (index === itemIndex && item.amount < 5) {
+          return { ...item, amount: item.amount + 1 };
+        }
+
+        return item;
+      })
+    );
+  };
+
+  const handleDecrementCartItemCount = (itemIndex: number) => {
+    const item = store.shoppingCart.find((_, index) => index === itemIndex);
+
+    if (item!.amount <= 1) {
+      return setStore("shoppingCart", (items) =>
+        items.filter((_, index) => index !== itemIndex)
+      );
+    }
+
+    setStore("shoppingCart", (items) =>
+      items.map((item, index) => {
+        if (index !== itemIndex) return item;
+        return { ...item, amount: item.amount - 1 };
+      })
+    );
+  };
+
   return (
     <>
       <button
@@ -49,7 +76,7 @@ function QuickCart() {
         onClick={() => setIsOpen(!isOpen())}
         class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer"
       >
-        <FaSolidCartShopping />
+        <ShoppingCart />
       </button>
 
       <Show when={isOpen()}>
@@ -77,51 +104,33 @@ function QuickCart() {
               <p class="text-gray-500 text-center py-4">Your cart is empty</p>
             ) : (
               <ul class="space-y-2 text-gray-500">
-                {items().map((item, itemIndex) => (
-                  <li class="flex items-center p-2 border-b gap-1">
-                    <span class="mr-auto">{item.name}</span>
-                    <span class="mr-2">
-                      ${Math.floor(item.price * item.amount * 100) / 100}
-                    </span>
-                    <button
-                      onClick={() => {
-                        const item = items().find(
-                          (_, index) => index === itemIndex
-                        );
-                        if (item!.amount <= 1) {
-                          return setItems((items) =>
-                            items.filter((_, index) => index !== itemIndex)
-                          );
+                <For each={store.shoppingCart}>
+                  {(item, itemIndex) => (
+                    <li class="flex items-center p-2 border-b gap-1">
+                      <span class="mr-auto">{item.name}</span>
+                      <span class="mr-2">
+                        ${Math.floor(item.price * item.amount * 100) / 100}
+                      </span>
+                      <button
+                        class="cursor-pointer"
+                        onClick={() =>
+                          handleDecrementCartItemCount(itemIndex())
                         }
-
-                        setItems(
-                          items().map((thing, index) => {
-                            if (index !== itemIndex) return thing;
-                            return { ...thing, amount: thing.amount - 1 };
-                          })
-                        );
-                      }}
-                    >
-                      <FaSolidSquareMinus />
-                    </button>
-                    <span class="w-4">{item && item.amount}</span>
-                    <button
-                      onClick={() =>
-                        setItems(
-                          items().map((thing, index) => {
-                            if (index === itemIndex && thing.amount < 5) {
-                              return { ...thing, amount: thing.amount + 1 };
-                            }
-
-                            return thing;
-                          })
-                        )
-                      }
-                    >
-                      <FaSolidSquarePlus />
-                    </button>
-                  </li>
-                ))}
+                      >
+                        <SquareMinus />
+                      </button>
+                      <span class="w-4">{item && item.amount}</span>
+                      <button
+                        class="cursor-pointer"
+                        onClick={() =>
+                          handleIncrementCartItemCount(itemIndex())
+                        }
+                      >
+                        <SquarePlus />
+                      </button>
+                    </li>
+                  )}
+                </For>
               </ul>
             )}
           </div>
