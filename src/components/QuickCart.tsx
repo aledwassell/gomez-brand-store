@@ -137,7 +137,7 @@ function QuickCart() {
 
           <div class="mt-4 pt-4 border-t">
             <button
-              class="w-full btn"
+              class="btn"
               onClick={() => {
                 console.log("Navigate to the cart page");
                 // Navigate to full cart page
