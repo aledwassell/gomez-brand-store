@@ -1,7 +1,17 @@
-/* TODO This is copied, need to style these properly */
-
 .btn {
-  @apply text-white py-2 bg-black cursor-pointer gap-2 font-bold shadow-sm transition-all duration-300;
+  @apply text-white py-2 bg-black cursor-pointer gap-2 font-bold shadow-sm transition-all duration-300 w-full;
+}
+
+.btn-white {
+  @apply text-black py-2 w-full bg-white cursor-pointer gap-2 font-bold shadow-sm transition-all duration-300 border border-gray-200;
+}
+
+.btn-hollow {
+  @apply text-white py-2 w-full bg-transparent cursor-pointer gap-2 font-bold shadow-sm transition-all duration-300 border-3 border-white;
+}
+
+.btn-underline {
+  @apply py-2 bg-transparent cursor-pointer transition-all duration-300 underline border-black hover:border-gray-400;
 }
 
 .btn:focus {

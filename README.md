@@ -16,6 +16,8 @@ npm init solid@latest my-app
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
+Ensure the `.env` has the API keys we need
+
 ```bash
 npm run dev
 
@@ -33,6 +35,14 @@ By default, `npm run build` will generate a Node app that you can run with `npm 
 
 ## Deploy cloudflare
 
-- npm run build
+- `npm run build`
 
-- npx wrangler pages deploy dist
+- `npx wrangler pages deploy dist`
+
+## Wrangler dev server
+
+Ensure the `.dev.env` has the API keys we need
+
+- `npm run build`
+
+- `npx wrangler pages dev dist`

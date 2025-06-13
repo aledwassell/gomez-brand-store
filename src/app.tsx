@@ -11,7 +11,7 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
-          <div class="flex flex-col items-center text-center bg-slate-800 min-h-screen text-white">
+          <div class="flex flex-col items-center bg-slate-800 min-h-screen text-white">
             <header>
               <ErrorBoundary fallback={(err) => err}>
                 <QuickCart />
