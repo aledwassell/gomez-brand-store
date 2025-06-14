@@ -74,9 +74,12 @@ function QuickCart() {
       <button
         ref={triggerRef}
         onClick={() => setIsOpen(!isOpen())}
-        class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer"
+        class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer relative"
       >
-        <ShoppingCart />
+        <ShoppingCart class="z-10" />
+        <Show when={items().length}>
+          <span class="absolute bg-emerald-500 w-4 h-4 rounded-full top-2 right-2.5"></span>
+        </Show>
       </button>
 
       <Show when={isOpen()}>
