@@ -7,19 +7,22 @@ function QuickCart() {
   let triggerRef: HTMLButtonElement | undefined;
   let quickCartRef: HTMLDivElement | undefined;
 
-  const [isOpen, setIsOpen] = createSignal(false);
   const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
 
   const items = () => store.shoppingCart;
 
   onMount(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      // Don't close if clicking on buttons or their children
+      if (target.closest("button")) return;
+
       if (
-        isOpen() &&
+        store.isCartOpen &&
         !quickCartRef?.contains(event.target as Node) &&
         !triggerRef?.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        setStore("isCartOpen", false);
       }
     };
 
@@ -31,7 +34,7 @@ function QuickCart() {
   });
 
   createEffect(() => {
-    if (isOpen() && triggerRef && quickCartRef) {
+    if (store.isCartOpen && triggerRef && quickCartRef) {
       const buttonRect = triggerRef.getBoundingClientRect();
       setCartPosition({
         top: buttonRect.bottom,
@@ -73,7 +76,7 @@ function QuickCart() {
     <>
       <button
         ref={triggerRef}
-        onClick={() => setIsOpen(!isOpen())}
+        onClick={() => setStore("isCartOpen", !store.isCartOpen)}
         class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer relative"
       >
         <ShoppingCart class="z-10" />
@@ -82,7 +85,7 @@ function QuickCart() {
         </Show>
       </button>
 
-      <Show when={isOpen()}>
+      <Show when={store.isCartOpen}>
         <div
           ref={quickCartRef}
           class="fixed bg-white p-4 w-80 max-h-[80vh] flex flex-col"
@@ -95,7 +98,7 @@ function QuickCart() {
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">Quick Cart</h3>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => setStore("isCartOpen", false)}
               class="text-gray-500 hover:text-gray-700 cursor-pointer"
             >
               ✕

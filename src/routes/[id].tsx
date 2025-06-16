@@ -44,6 +44,8 @@ export default function Product() {
         },
       ]);
     }
+
+    setStore("isCartOpen", true);
   };
 
   const sizes = () => ["XS", "S", "M", "L", "XL", "2XL"];
