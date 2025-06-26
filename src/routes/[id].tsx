@@ -5,6 +5,7 @@ import { StoreSingleProduct } from "~/models/printful/store.single.product.model
 import { getProduct } from "~/lib/printful-store";
 import { setStore, store } from "../store/store";
 import { MoveLeft } from "lucide-solid";
+import { getPageTitle } from "~/constants/app-title";
 
 export default function Product() {
   const navigate = useNavigate();
@@ -54,21 +55,18 @@ export default function Product() {
     const productData = product()?.result?.sync_product;
     if (!productData) return [];
 
-    const images = [
-      "https://placehold.net/3.png",
-      "https://placehold.net/5.png",
-    ];
+    const images = product()?.result.sync_variants.map(
+      (variant) => variant.product.image
+    );
 
-    if (productData.thumbnail_url) {
-      images.unshift(productData.thumbnail_url);
-    }
-
-    return images.slice(0, 3); // Limit to 3 images max
+    return [productData.thumbnail_url, images![1], images![12]];
   };
 
   return (
     <div>
-      <Title>{product()?.result?.sync_product?.name || "...loading"}</Title>
+      <Show when={product()}>
+        <Title>{getPageTitle(product()?.result?.sync_product?.name)}</Title>
+      </Show>
       <button class="cursor-pointer mb-6" onClick={() => navigate(-1)}>
         <MoveLeft />
       </button>

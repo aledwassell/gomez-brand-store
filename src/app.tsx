@@ -4,13 +4,14 @@ import { FileRoutes } from "@solidjs/start/router";
 import { ErrorBoundary, Suspense } from "solid-js";
 import "./app.css";
 import QuickCart from "./components/QuickCart";
+import { appTitle } from "./constants/app-title";
 
 export default function App() {
   return (
     <Router
       root={(props) => (
         <MetaProvider>
-          <Title>SolidStart - Basic</Title>
+          <Title>{appTitle}</Title>
           <div class="flex flex-col items-center bg-slate-800 min-h-screen text-white">
             <header>
               <ErrorBoundary fallback={(err) => err}>
