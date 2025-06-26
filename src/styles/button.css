@@ -23,5 +23,5 @@
 }
 
 .btn:disabled {
-  @apply cursor-not-allowed bg-emerald-50 text-slate-700;
+  @apply cursor-not-allowed bg-slate-600 text-slate-200;
 }
