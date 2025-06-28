@@ -2,12 +2,15 @@ import { createEffect, createSignal, Show, onMount, For } from "solid-js";
 
 import { ShoppingCart, SquarePlus, SquareMinus } from "lucide-solid";
 import { setStore, store } from "../store/store";
+import { createCheckoutSession } from "~/lib/stripe-store";
 
 function QuickCart() {
   let triggerRef: HTMLButtonElement | undefined;
   let quickCartRef: HTMLDivElement | undefined;
 
   const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
+  const [loading, setLoading] = createSignal(false);
+  const [error, setError] = createSignal<string | null>(null);
 
   const items = () => store.shoppingCart;
 
@@ -143,15 +146,27 @@ function QuickCart() {
 
           <div class="mt-4 pt-4 border-t">
             <button
-              class="btn"
               onClick={() => {
-                console.log("Navigate to the cart page");
-                // Navigate to full cart page
-                // window.location.href = "/cart";
+                setLoading(true);
+                const cartItems = items().map((item) => ({
+                  name: item.name,
+                  image: item.thumbnail_url,
+                  price: item.price,
+                  quantity: item.amount,
+                }));
+                createCheckoutSession(cartItems)
+                    .then(data => {
+                        setLoading(false);
+                        window.location.href = data.url;
+                    })
+                  .catch((error) => setError(error));
               }}
+              disabled={loading() || !items().length}
+              class="btn"
             >
-              Checkout
+              {loading() ? "Redirecting..." : "Checkout"}
             </button>
+            {error() && <div class="error">{error()}</div>}
           </div>
         </div>
       </Show>

@@ -6,7 +6,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "vinxi dev",
-    "build": "vinxi build",
+    "build": "vinxi build --mode production",
+    "build:dev": "vinxi build --mode development",
+    "build:preview": "vinxi build --mode preview",
     "start": "vinxi start",
     "version": "vinxi version"
   },
@@ -16,6 +18,7 @@
     "@solidjs/start": "^1.1.0",
     "lucide-solid": "^0.513.0",
     "solid-js": "^1.9.5",
+    "stripe": "^18.2.1",
     "vinxi": "^0.5.3"
   },
   "devDependencies": {
