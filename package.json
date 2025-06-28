@@ -6,7 +6,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "vinxi dev",
-    "build": "vinxi build",
+    "build": "vinxi build --mode production",
+    "build:dev": "vinxi build --mode development",
+    "build:preview": "vinxi build --mode preview",
     "start": "vinxi start",
     "version": "vinxi version"
   },

@@ -8,7 +8,7 @@ import ComingSoon from "./components/ComingSoon";
 import { appTitle } from "./constants/app-title";
 
 export default function App() {
-  const showComingSoon = import.meta.env.VITE_SHOW_COMING_SOON === "true";
+  const showComingSoon = import.meta.env.MODE === "production";
 
   const handleCheck = () => {
     console.log("All env vars:", import.meta.env);
