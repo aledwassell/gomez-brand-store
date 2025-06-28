@@ -10,11 +10,6 @@ import { appTitle } from "./constants/app-title";
 export default function App() {
   const showComingSoon = import.meta.env.MODE === "production";
 
-  const handleCheck = () => {
-    console.log("All env vars:", import.meta.env);
-    console.log("Specific var:", import.meta.env.VITE_SHOW_COMING_SOON);
-  };
-
   return (
     <Router
       root={(props) => (
@@ -26,9 +21,6 @@ export default function App() {
                 <ErrorBoundary fallback={(err) => err}>
                   <QuickCart />
                 </ErrorBoundary>
-                <button class="bg-amber-500 p-5" onClick={() => handleCheck()}>
-                  check
-                </button>
               </header>
             )}
             <Suspense>
