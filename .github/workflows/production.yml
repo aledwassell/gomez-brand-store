@@ -23,10 +23,6 @@ jobs:
           npm install --package-lock-only
           npm ci
 
-      - name: Create env file
-        run: |
-            echo "VITE_SHOW_COMING_SOON=${{ secrets.VITE_SHOW_COMING_SOON }}" >> .env.production
-
       - name: Build project
         run: npm run build
 
