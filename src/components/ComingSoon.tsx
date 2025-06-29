@@ -100,7 +100,7 @@ export default function ComingSoon() {
             <For each={letters}>
               {(letter, index) => (
                 <Motion.span
-                  class="text-6xl font-black text-white tracking-tight uppercase inline-block"
+                  class="text-4xl lg:text-6xl font-black text-white tracking-tight uppercase inline-block"
                   initial={{
                     opacity: 0,
                     y: 100,
@@ -127,7 +127,7 @@ export default function ComingSoon() {
 
             {/* Animated Cursor */}
             <Motion.span
-              class="text-6xl font-black text-white ml-2"
+              class="text-4xl lg:text-6xl font-black text-white ml-2"
               animate={{ opacity: showCursor() ? 1 : 0 }}
               transition={{ duration: 0.1 }}
             >
@@ -201,7 +201,7 @@ export default function ComingSoon() {
                 href="https://www.instagram.com/iamgomez_theblackandwhitecat?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center space-x-2 text-white px-6 py-3 hover:bg-white hover:text-black transition-colors duration-600 font-bold uppercase tracking-wide"
+                class="inline-flex items-center lg:space-x-2 text-white px-6 py-3 hover:bg-white hover:text-black transition-colors duration-600 font-bold uppercase tracking-wide"
                 initial={{
                   opacity: 0,
                   y: 20,
@@ -218,8 +218,11 @@ export default function ComingSoon() {
                   ease: [0.25, 0.46, 0.45, 0.94],
                 }}
               >
-                <Instagram />
-                <span>Follow @iamgomez_theblackandwhitecat</span>
+                <Instagram class="hidden lg:block" />
+                <Instagram class="lg:hidden" size={72} />
+                <span class="hidden lg:block">
+                  Follow @iamgomez_theblackandwhitecat
+                </span>
               </Motion.a>
             </Motion.div>
           </div>
