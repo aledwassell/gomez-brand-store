@@ -13,6 +13,7 @@
     "version": "vinxi version"
   },
   "dependencies": {
+    "@shopify/storefront-api-client": "^1.0.8",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "^1.1.0",
