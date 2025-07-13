@@ -1,7 +1,6 @@
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
-import { StoreSingleProduct } from "~/models/printful/store.single.product.model";
-import { Product } from "~/models/Product.model";
-import { ShopifyProduct } from "~/models/shopify/shopify-product.model";
+import { ProductListItem } from "~/models/product-list-item.model";
+import { Product } from "~/models/product.model";
 
 const client = createStorefrontApiClient({
   storeDomain: process.env.SHOPIFY_STORE_DOMAIN,
@@ -36,7 +35,7 @@ export const GET_PRODUCTS = `
 
 export async function getProducts(
   forceRefresh = false
-): Promise<ShopifyProduct[]> {
+): Promise<ProductListItem[]> {
   "use server";
 
   try {
@@ -49,7 +48,7 @@ export async function getProducts(
 
     return (
       response.data?.products?.edges?.map(
-        (edge: { node: ShopifyProduct }) => edge.node
+        (edge: { node: ProductListItem }) => edge.node
       ) || []
     );
   } catch (error) {
@@ -102,7 +101,7 @@ const GET_PRODUCT = `
 export async function getProduct(
   handle: string,
   forceRefresh = false
-): Promise<StoreSingleProduct | null> {
+): Promise<Product | null> {
   "use server";
 
   try {
