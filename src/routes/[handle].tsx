@@ -7,8 +7,12 @@ import { MoveLeft } from "lucide-solid";
 import { getPageTitle } from "~/constants/app-title";
 import { getProduct } from "~/lib/shopify-store";
 import { formatCurrency } from "~/util/format-currency.util";
+import { Portal } from "solid-js/web";
+import Modal from "~/components/Modal";
 
 export default function ProductPage() {
+  let sizeGuideButtonRef: HTMLButtonElement | undefined;
+
   const navigate = useNavigate();
   const params = useParams();
   const product = createAsync<Product | null>(() =>
@@ -18,6 +22,7 @@ export default function ProductPage() {
   const [selectedSizeIndex, setSelectedSizeIndex] = createSignal<number | null>(
     null
   );
+  const [showSizeGuide, setShowSizeGuide] = createSignal(false);
 
   const addToCart = () => {
     // const productData = product()?.result?.sync_product;
@@ -137,7 +142,25 @@ export default function ProductPage() {
                     </For>
                   </div>
                 </Show>
-                <button class="btn-underline btn-auto">size guide</button>
+                <Show when={product()?.sizeGuide}>
+                  <button
+                    ref={sizeGuideButtonRef}
+                    class="btn-underline btn-auto"
+                    onClick={() => setShowSizeGuide(true)}
+                  >
+                    size guide
+                  </button>
+                  <Portal mount={sizeGuideButtonRef}>
+                    <Show when={showSizeGuide()}>
+                      <Modal
+                        title="Size Guide"
+                        onClose={() => setShowSizeGuide(false)}
+                      >
+                        <div innerHTML={product()?.sizeGuide?.value} />
+                      </Modal>
+                    </Show>
+                  </Portal>
+                </Show>
               </div>
               <button
                 class="btn-hollow"

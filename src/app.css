@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import "./styles/button.css";
+@import "./styles/button.scss";
+@import "./styles/table.scss";
 
 body {
   margin: 0;

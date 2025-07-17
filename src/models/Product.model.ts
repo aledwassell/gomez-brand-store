@@ -25,6 +25,9 @@ export type Product = {
       };
     }[];
   };
+  sizeGuide: {
+    value: string;
+  }
   variantsCount: {
     count: number;
   };

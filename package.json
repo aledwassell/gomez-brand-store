@@ -26,6 +26,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.8",
     "postcss": "^8.5.4",
+    "sass-embedded": "^1.89.2",
     "tailwindcss": "^4.1.8"
   },
   "engines": {

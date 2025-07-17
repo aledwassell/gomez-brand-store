@@ -59,42 +59,45 @@ export async function getProducts(
 
 const GET_PRODUCT = `
     query ProductQuery($handle: String) {
-    product(handle: $handle) {
-        id
-        title
-        handle
-        descriptionHtml
-        images(first: 12) {
-        nodes {
-            url
-            altText
-        }
-        }
-        featuredImage {
-        url
-        altText
-        }
-        encodedVariantExistence
-        priceRange {
-        maxVariantPrice {
-            amount
-            currencyCode
-        }
-        }
-        variants(first: 3) {
-        nodes {
+        product(handle: $handle) {
+            id
             title
-            availableForSale
-            image {
-            url
-            altText
+            handle
+            descriptionHtml
+            sizeGuide: metafield(namespace: "custom", key: "size_guide") {
+                value
+            }
+            images(first: 12) {
+                nodes {
+                    url
+                    altText
+                }
+            }
+            featuredImage {
+                url
+                altText
+            }
+            encodedVariantExistence
+            priceRange {
+                maxVariantPrice {
+                    amount
+                    currencyCode
+                }
+            }
+            variants(first: 3) {
+                nodes {
+                    title
+                    availableForSale
+                    image {
+                        url
+                        altText
+                    }
+                }
+            }
+            variantsCount {
+                count
             }
         }
-        }
-        variantsCount {
-        count
-        }
-    }
     }
 `;
 
