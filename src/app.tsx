@@ -1,7 +1,7 @@
-import { MetaProvider, Title } from "@solidjs/meta";
+import { Meta, MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { ErrorBoundary, Suspense } from "solid-js";
+import { ErrorBoundary, onCleanup, onMount, Suspense } from "solid-js";
 import "./app.css";
 import QuickCart from "./components/QuickCart";
 import ComingSoon from "./components/ComingSoon";
@@ -14,6 +14,10 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
+          <Meta
+            name="google-adsense-account"
+            content="ca-pub-4783363180748954"
+          />
           <Title>{appTitle}</Title>
           <div class="flex flex-col items-center bg-slate-800 min-h-screen text-white">
             {!showComingSoon && (
