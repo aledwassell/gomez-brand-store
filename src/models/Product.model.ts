@@ -1,3 +1,8 @@
+export type ProductImage = {
+  url: string;
+  altText: string;
+};
+
 export type Product = {
   id: string;
   title: string;
@@ -5,29 +10,25 @@ export type Product = {
   descriptionHtml: string;
   availableForSale: boolean;
   priceRange: { maxVariantPrice: { amount: string; currencyCode: string } };
-  featuredImage: {
-    url: string;
-    altText: string;
-  };
+  featuredImage: ProductImage;
   images: {
-    nodes: {
-      url: string;
-      altText: string;
-    }[];
+    nodes: ProductImage[];
   };
   variants: {
     nodes: {
+      id: string;
       title: string;
       availableForSale: boolean;
       price: {
         amount: string;
         currencyCode: string;
       };
+      image: ProductImage;
     }[];
   };
   sizeGuide: {
     value: string;
-  }
+  };
   variantsCount: {
     count: number;
   };
