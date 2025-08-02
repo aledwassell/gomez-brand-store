@@ -1,7 +1,7 @@
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import { Cart, CartInput, CartLineInput, CartLineUpdateInput } from "~/models/Cart.model";
 import { ProductListItem } from "~/models/product-list-item.model";
-import { Product } from "~/models/product.model";
+import { Product } from "~/models/Product.model";
 
 const client = createStorefrontApiClient({
     storeDomain: process.env.SHOPIFY_STORE_DOMAIN,
