@@ -189,8 +189,8 @@ export async function createCart(initialItem?: CartLineInput): Promise<Cart | nu
 }
 
 const addItemsToCartMutation = `
-  mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
-    cartLinesAdd(cartId: $cartId, lines: $lines) {
+mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+  cartLinesAdd(cartId: $cartId, lines: $lines) {
     cart {
       id
       checkoutUrl
@@ -220,8 +220,8 @@ const addItemsToCartMutation = `
     userErrors {
       message
     }
-    }
   }
+}
 `;
 
 export async function addItemsToCart(cartId: string, items: CartLineInput[]) {
@@ -294,8 +294,8 @@ mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
     userErrors {
       message
     }
-    }
   }
+}
 `;
 
 export async function updateItemInCart(items: CartLineUpdateInput[], cartId: string | null) {
