@@ -53,20 +53,20 @@ function QuickCart() {
         }
     });
 
-    // const handleAddCartItem = (cartLineInput: CartLineInput) => {
-    //     addToCart([cartLineInput], localStorage.getItem(shopifyCartIdLocalStorageKey))
-    //         .then(response => setStore("cart", response.lines.nodes))
-    //         .catch(error => setError(error));
-    // };
+    const handleAddCartItem = (cartLineInput: CartLineInput) => {
+        addToCart([cartLineInput], localStorage.getItem(shopifyCartIdLocalStorageKey))
+            .then(response => setStore("cart", response.lines.nodes))
+            .catch(error => setError(error));
+    };
 
-    // const handleRemoveCartItem = (cartLineUpdateInput: CartLineUpdateInput) => {
-    //     updateItemInCart(
-    //         [{ ...cartLineUpdateInput, quantity: cartLineUpdateInput.quantity - 1 }],
-    //         localStorage.getItem(shopifyCartIdLocalStorageKey)
-    //     )
-    //         .then(response => setStore("cart", response.lines.nodes))
-    //         .catch(error => setError(error));
-    // };
+    const handleRemoveCartItem = (cartLineUpdateInput: CartLineUpdateInput) => {
+        updateItemInCart(
+            [{ ...cartLineUpdateInput, quantity: cartLineUpdateInput.quantity - 1 }],
+            localStorage.getItem(shopifyCartIdLocalStorageKey)
+        )
+            .then(response => setStore("cart", response.lines.nodes))
+            .catch(error => setError(error));
+    };
 
     return (
         <>
@@ -100,7 +100,6 @@ function QuickCart() {
                             <X />
                         </button>
                     </div>
-                    {/*
                     <ErrorBoundary fallback={err => <div>Error: {err.message}</div>}>
                         <div class="flex-1 overflow-y-auto">
                             {store.cart?.length === 0 ? (
@@ -159,7 +158,7 @@ function QuickCart() {
                             Checkout
                         </button>
                         {error() && <div class="error">{error()}</div>}
-                    </div> */}
+                    </div>
                 </div>
             </Show>
         </>
