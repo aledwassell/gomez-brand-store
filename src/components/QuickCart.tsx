@@ -31,12 +31,12 @@ function QuickCart() {
 
         document.addEventListener("mousedown", handleClickOutside);
 
-        getCart(localStorage.getItem(shopifyCartIdLocalStorageKey))
-            .then(cart => {
-                setStore("checkoutUrl", cart?.checkoutUrl ?? "");
-                setStore("cart", cart?.lines?.nodes ?? []);
-            })
-            .catch(error => setError(error));
+        // getCart(localStorage.getItem(shopifyCartIdLocalStorageKey))
+        //     .then(cart => {
+        //         setStore("checkoutUrl", cart?.checkoutUrl ?? "");
+        //         setStore("cart", cart?.lines?.nodes ?? []);
+        //     })
+        //     .catch(error => setError(error));
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
