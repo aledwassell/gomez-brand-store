@@ -3,6 +3,11 @@ import { Cart, CartInput, CartLineInput, CartLineUpdateInput } from "~/models/Ca
 import { ProductListItem } from "~/models/product-list-item.model";
 import { Product } from "~/models/Product.model";
 
+// Add this right before your Storefront API client creation
+console.log('All env vars:', process.env);
+console.log('SHOPIFY_STORE_DOMAIN specifically:', process.env.SHOPIFY_STORE_DOMAIN);
+console.log('Type:', typeof process.env.SHOPIFY_STORE_DOMAIN);
+
 const client = createStorefrontApiClient({
     storeDomain: process.env.SHOPIFY_STORE_DOMAIN,
     apiVersion: "2025-07",
