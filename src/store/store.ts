@@ -1,12 +1,14 @@
 import { createStore } from "solid-js/store";
-import { Product } from "~/models/Product.model";
+import { BaseCartLine } from "~/models/Cart.model";
 
 const [store, setStore] = createStore<{
-  shoppingCart: Product[];
-  isCartOpen: boolean;
+    cart: BaseCartLine[];
+    isCartOpen: boolean;
+    checkoutUrl: string;
 }>({
-  shoppingCart: [],
-  isCartOpen: false,
+    cart: [],
+    isCartOpen: false,
+    checkoutUrl: "",
 });
 
 export { store, setStore };
