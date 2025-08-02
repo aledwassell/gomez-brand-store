@@ -1,7 +1,7 @@
 import { ErrorBoundary, Show, For, createSignal } from "solid-js";
 import { createAsync, useNavigate, useParams } from "@solidjs/router";
 import { Title } from "@solidjs/meta";
-import { Product, ProductImage } from "~/models/product.model";
+import { Product, ProductImage } from "~/models/Product.model";
 import { setStore } from "../store/store";
 import { MoveLeft } from "lucide-solid";
 import { getPageTitle } from "~/constants/app-title";
@@ -32,7 +32,11 @@ export default function ProductPage() {
         };
 
         addToCart([item], localStorage.getItem(shopifyCartIdLocalStorageKey)).then(cart => {
-            const { id, checkoutUrl } = cart!;
+            const { id, checkoutUrl, lines } = cart!;
+
+            if (lines) {
+                setStore("cart", lines.nodes);
+            }
 
             if (id) {
                 localStorage.setItem(shopifyCartIdLocalStorageKey, id);
@@ -41,9 +45,9 @@ export default function ProductPage() {
             if (checkoutUrl) {
                 setStore("checkoutUrl", checkoutUrl);
             }
-        });
 
-        setStore("isCartOpen", true);
+            setStore("isCartOpen", true);
+        });
     };
 
     const price = () => {
