@@ -1,7 +1,7 @@
 import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 import { Cart, CartInput, CartLineInput, CartLineUpdateInput } from "~/models/Cart.model";
 import { ProductListItem } from "~/models/product-list-item.model";
-import { Product } from "~/models/product.model";
+import { Product } from "~/models/Product.model";
 
 const client = createStorefrontApiClient({
     storeDomain: process.env.SHOPIFY_STORE_DOMAIN,
@@ -191,8 +191,35 @@ export async function createCart(initialItem?: CartLineInput): Promise<Cart | nu
 const addItemsToCartMutation = `
   mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
-      cart { id checkoutUrl lines(first: 100) { nodes { id quantity } } }
-      userErrors { message }
+    cart {
+      id
+      checkoutUrl
+      lines(first: 100) {
+        nodes {
+          id
+          quantity
+          cost {
+            totalAmount {
+              amount
+              currencyCode
+            }
+          }
+          merchandise {
+            ... on ProductVariant {
+              id
+              title
+              price {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    }
+    userErrors {
+      message
+    }
     }
   }
 `;
@@ -236,10 +263,37 @@ export async function addToCart(items: CartLineInput[], cartId: string | null) {
 }
 
 const updateItemInCartMutation = `
-  mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
-    cartLinesAdd(cartId: $cartId, lines: $lines) {
-      cart { id checkoutUrl lines(first: 100) { nodes { id quantity } } }
-      userErrors { message }
+mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  cartLinesUpdate(cartId: $cartId, lines: $lines) {
+    cart {
+      id
+      checkoutUrl
+      lines(first: 100) {
+        nodes {
+          id
+          quantity
+          cost {
+            totalAmount {
+              amount
+              currencyCode
+            }
+          }
+          merchandise {
+            ... on ProductVariant {
+              id
+              title
+              price {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    }
+    userErrors {
+      message
+    }
     }
   }
 `;
@@ -256,12 +310,12 @@ export async function updateItemInCart(items: CartLineUpdateInput[], cartId: str
             return null;
         }
 
-        if (data.cartLinesAdd.userErrors && data.cartLinesAdd.userErrors.length > 0) {
-            console.error("User errors while updating items in cart:", data.cartLinesAdd.userErrors);
+        if (data.cartLinesUpdate.userErrors && data.cartLinesUpdate.userErrors.length > 0) {
+            console.error("User errors while updating items in cart:", data.cartLinesUpdate.userErrors);
             return null;
         }
 
-        return data.cartLinesAdd.cart;
+        return data.cartLinesUpdate.cart;
     } catch (error) {
         console.error("Error updating items in cart:", error);
         return null;
