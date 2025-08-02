@@ -5,7 +5,8 @@ import { Product, ProductImage } from "~/models/Product.model";
 import { setStore } from "../store/store";
 import { MoveLeft } from "lucide-solid";
 import { getPageTitle } from "~/constants/app-title";
-import { addToCart, getProduct } from "~/lib/shopify-store";
+import { getProduct } from "~/lib/shopify-store";
+import { addToCartApi } from "~/lib/cart-api";
 import { formatCurrency } from "~/util/format-currency.util";
 import { Portal } from "solid-js/web";
 import Modal from "~/components/Modal";
@@ -21,8 +22,9 @@ export default function ProductPage() {
     const [selectedImage, setSelectedImage] = createSignal<ProductImage | undefined>(undefined);
     const [selectedVariantId, setSelectedVariantId] = createSignal<string | null>(null);
     const [showSizeGuide, setShowSizeGuide] = createSignal(false);
+    const [cartError, setCartError] = createSignal<string | null>(null);
 
-    const addItemToCart = () => {
+    const addItemToCart = async () => {
         if (!selectedVariantId()) {
             throw "No selected variant";
         }
@@ -31,14 +33,25 @@ export default function ProductPage() {
             merchandiseId: selectedVariantId() ?? "",
         };
 
-        addToCart([item], localStorage.getItem(shopifyCartIdLocalStorageKey)).then(cart => {
-            const { id, checkoutUrl, lines } = cart!;
+        const cartId = localStorage.getItem(shopifyCartIdLocalStorageKey);
+        const response = await addToCartApi([item], cartId);
+
+        if (response.error) {
+            console.error("Error adding item to cart:", response.error);
+            setCartError(`Failed to add item to cart: ${response.error}`);
+            return;
+        }
+
+        if (response.cart) {
+            const { id, checkoutUrl, lines } = response.cart;
+            
+            setCartError(null);
 
             if (lines) {
                 setStore("cart", lines.nodes);
             }
 
-            if (id) {
+            if (id && id !== cartId) {
                 localStorage.setItem(shopifyCartIdLocalStorageKey, id);
             }
 
@@ -47,7 +60,7 @@ export default function ProductPage() {
             }
 
             setStore("isCartOpen", true);
-        });
+        }
     };
 
     const price = () => {
@@ -162,6 +175,9 @@ export default function ProductPage() {
                                     </Portal>
                                 </Show>
                             </div>
+                            <Show when={cartError()}>
+                                <div class="text-red-500 text-sm mb-2">{cartError()}</div>
+                            </Show>
                             <button
                                 class="btn btn-hollow"
                                 disabled={!selectedVariantId() || !product()?.availableForSale}
