@@ -2,7 +2,7 @@ import { createEffect, createSignal, Show, onMount, For, ErrorBoundary } from "s
 
 import { ShoppingCart, SquarePlus, SquareMinus, X } from "lucide-solid";
 import { setStore, store } from "../store/store";
-import { addToCart, getCart, updateItemInCart } from "~/lib/shopify-store";
+import { addToCartApi, getCartApi, updateCartApi } from "~/lib/cart-api";
 import { shopifyCartIdLocalStorageKey } from "~/constants/shopify-cart-id";
 import { CartLineInput, CartLineUpdateInput } from "~/models/Cart.model";
 import { formatCurrency } from "~/util/format-currency.util";
@@ -31,12 +31,16 @@ function QuickCart() {
 
         document.addEventListener("mousedown", handleClickOutside);
 
-        // getCart(localStorage.getItem(shopifyCartIdLocalStorageKey))
-        //     .then(cart => {
-        //         setStore("checkoutUrl", cart?.checkoutUrl ?? "");
-        //         setStore("cart", cart?.lines?.nodes ?? []);
-        //     })
-        //     .catch(error => setError(error));
+        getCartApi(localStorage.getItem(shopifyCartIdLocalStorageKey))
+            .then(response => {
+                if (response.error) {
+                    setError(response.error);
+                } else {
+                    setStore("checkoutUrl", response.cart?.checkoutUrl ?? "");
+                    setStore("cart", response.cart?.lines?.nodes ?? []);
+                }
+            })
+            .catch(error => setError(error.message || "Failed to load cart"));
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -53,19 +57,36 @@ function QuickCart() {
         }
     });
 
-    const handleAddCartItem = (cartLineInput: CartLineInput) => {
-        addToCart([cartLineInput], localStorage.getItem(shopifyCartIdLocalStorageKey))
-            .then(response => setStore("cart", response.lines.nodes))
-            .catch(error => setError(error));
+    const handleAddCartItem = async (cartLineInput: CartLineInput) => {
+        const cartId = localStorage.getItem(shopifyCartIdLocalStorageKey);
+        const response = await addToCartApi([cartLineInput], cartId);
+        
+        if (response.error) {
+            setError(response.error);
+        } else if (response.cart) {
+            if (response.cart.id && response.cart.id !== cartId) {
+                localStorage.setItem(shopifyCartIdLocalStorageKey, response.cart.id);
+            }
+            setStore("cart", response.cart.lines?.nodes ?? []);
+            setStore("checkoutUrl", response.cart.checkoutUrl ?? "");
+            setError(null);
+        }
     };
 
-    const handleRemoveCartItem = (cartLineUpdateInput: CartLineUpdateInput) => {
-        updateItemInCart(
+    const handleRemoveCartItem = async (cartLineUpdateInput: CartLineUpdateInput) => {
+        const cartId = localStorage.getItem(shopifyCartIdLocalStorageKey);
+        const response = await updateCartApi(
             [{ ...cartLineUpdateInput, quantity: cartLineUpdateInput.quantity - 1 }],
-            localStorage.getItem(shopifyCartIdLocalStorageKey)
-        )
-            .then(response => setStore("cart", response.lines.nodes))
-            .catch(error => setError(error));
+            cartId
+        );
+        
+        if (response.error) {
+            setError(response.error);
+        } else if (response.cart) {
+            setStore("cart", response.cart.lines?.nodes ?? []);
+            setStore("checkoutUrl", response.cart.checkoutUrl ?? "");
+            setError(null);
+        }
     };
 
     return (
