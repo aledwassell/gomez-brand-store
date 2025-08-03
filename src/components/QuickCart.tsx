@@ -1,18 +1,16 @@
 import { createEffect, createSignal, Show, onMount, For, ErrorBoundary } from "solid-js";
 
-import { ShoppingCart, SquarePlus, SquareMinus, X } from "lucide-solid";
+import { ShoppingCart, X } from "lucide-solid";
 import { setStore, store } from "../store/store";
-import { addToCartApi, getCartApi, updateCartApi } from "~/lib/cart-api";
+import { getCartApi } from "~/lib/cart-api";
 import { shopifyCartIdLocalStorageKey } from "~/constants/shopify-cart-id";
-import { CartLineInput, CartLineUpdateInput } from "~/models/Cart.model";
-import { formatCurrency } from "~/util/format-currency.util";
+import QuickCartItem from "./QuickCartItem";
 
 function QuickCart() {
     let triggerRef: HTMLButtonElement | undefined;
     let quickCartRef: HTMLDivElement | undefined;
 
     const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
-    const [error, setError] = createSignal<string | null>(null);
 
     onMount(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -34,13 +32,13 @@ function QuickCart() {
         getCartApi(localStorage.getItem(shopifyCartIdLocalStorageKey))
             .then(response => {
                 if (response.error) {
-                    setError(response.error);
+                    setStore("cartError", response.error);
                 } else {
                     setStore("checkoutUrl", response.cart?.checkoutUrl ?? "");
                     setStore("cart", response.cart?.lines?.nodes ?? []);
                 }
             })
-            .catch(error => setError(error.message || "Failed to load cart"));
+            .catch(error => setStore("cartError", error.message || "Failed to load cart"));
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -56,38 +54,6 @@ function QuickCart() {
             });
         }
     });
-
-    const handleAddCartItem = async (cartLineInput: CartLineInput) => {
-        const cartId = localStorage.getItem(shopifyCartIdLocalStorageKey);
-        const response = await addToCartApi([cartLineInput], cartId);
-        
-        if (response.error) {
-            setError(response.error);
-        } else if (response.cart) {
-            if (response.cart.id && response.cart.id !== cartId) {
-                localStorage.setItem(shopifyCartIdLocalStorageKey, response.cart.id);
-            }
-            setStore("cart", response.cart.lines?.nodes ?? []);
-            setStore("checkoutUrl", response.cart.checkoutUrl ?? "");
-            setError(null);
-        }
-    };
-
-    const handleRemoveCartItem = async (cartLineUpdateInput: CartLineUpdateInput) => {
-        const cartId = localStorage.getItem(shopifyCartIdLocalStorageKey);
-        const response = await updateCartApi(
-            [{ ...cartLineUpdateInput, quantity: cartLineUpdateInput.quantity - 1 }],
-            cartId
-        );
-        
-        if (response.error) {
-            setError(response.error);
-        } else if (response.cart) {
-            setStore("cart", response.cart.lines?.nodes ?? []);
-            setStore("checkoutUrl", response.cart.checkoutUrl ?? "");
-            setError(null);
-        }
-    };
 
     return (
         <>
@@ -130,36 +96,7 @@ function QuickCart() {
                                     <For each={store.cart}>
                                         {item => (
                                             <li class="flex items-center p-2 border-b gap-1">
-                                                <span class="mr-auto">{item.merchandise.title}</span>
-                                                <span class="mr-2">
-                                                    {formatCurrency(
-                                                        item.cost.totalAmount.amount,
-                                                        item.cost.totalAmount.currencyCode
-                                                    )}
-                                                </span>
-                                                <button
-                                                    class="cursor-pointer"
-                                                    onClick={() =>
-                                                        handleRemoveCartItem({
-                                                            id: item.id,
-                                                            quantity: item.quantity,
-                                                        })
-                                                    }
-                                                >
-                                                    <SquareMinus />
-                                                </button>
-                                                <span class="w-4">{item && item.quantity}</span>
-                                                <button
-                                                    class="cursor-pointer"
-                                                    onClick={() =>
-                                                        handleAddCartItem({
-                                                            merchandiseId: item.merchandise.id,
-                                                            quantity: 1,
-                                                        })
-                                                    }
-                                                >
-                                                    <SquarePlus />
-                                                </button>
+                                                <QuickCartItem {...item} />
                                             </li>
                                         )}
                                     </For>
@@ -167,8 +104,7 @@ function QuickCart() {
                             )}
                         </div>
                     </ErrorBoundary>
-
-                    <div class="mt-4 pt-4 border-t">
+                    <div class="mt-6">
                         <button
                             onClick={() => {
                                 window.location.href = store.checkoutUrl;
@@ -178,7 +114,7 @@ function QuickCart() {
                         >
                             Checkout
                         </button>
-                        {error() && <div class="error">{error()}</div>}
+                        {store.cartError && <div class="error">{store.cartError}</div>}
                     </div>
                 </div>
             </Show>

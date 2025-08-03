@@ -1,4 +1,4 @@
-import { ErrorBoundary, Show, For, createSignal } from "solid-js";
+import { ErrorBoundary, Show, For, createSignal, createEffect } from "solid-js";
 import { createAsync, useNavigate, useParams } from "@solidjs/router";
 import { Title } from "@solidjs/meta";
 import { Product, ProductImage } from "~/models/Product.model";
@@ -24,6 +24,14 @@ export default function ProductPage() {
     const [showSizeGuide, setShowSizeGuide] = createSignal(false);
     const [cartError, setCartError] = createSignal<string | null>(null);
 
+    createEffect(() => {
+        params.handle;
+        setSelectedImage(undefined);
+        setSelectedVariantId(null);
+        setCartError(null);
+        setShowSizeGuide(false);
+    });
+
     const addItemToCart = async () => {
         if (!selectedVariantId()) {
             throw "No selected variant";
@@ -44,7 +52,7 @@ export default function ProductPage() {
 
         if (response.cart) {
             const { id, checkoutUrl, lines } = response.cart;
-            
+
             setCartError(null);
 
             if (lines) {
@@ -85,7 +93,7 @@ export default function ProductPage() {
                 <Title>{getPageTitle(product()?.title)}</Title>
             </Show>
 
-            <button class="cursor-pointer mb-6" onClick={() => navigate(-1)}>
+            <button class="cursor-pointer mb-6" onClick={() => navigate("/")}>
                 <MoveLeft />
             </button>
 
@@ -176,7 +184,7 @@ export default function ProductPage() {
                                 </Show>
                             </div>
                             <Show when={cartError()}>
-                                <div class="text-red-500 text-sm mb-2">{cartError()}</div>
+                                {error => <div class="text-red-500 text-sm mb-2">{error()}</div>}
                             </Show>
                             <button
                                 class="btn btn-hollow"

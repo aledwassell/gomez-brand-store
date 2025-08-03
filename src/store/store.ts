@@ -5,10 +5,12 @@ const [store, setStore] = createStore<{
     cart: BaseCartLine[];
     isCartOpen: boolean;
     checkoutUrl: string;
+    cartError: string;
 }>({
     cart: [],
     isCartOpen: false,
     checkoutUrl: "",
+    cartError: "",
 });
 
 export { store, setStore };
