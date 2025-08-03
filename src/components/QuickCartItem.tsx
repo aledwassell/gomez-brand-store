@@ -21,6 +21,7 @@ function QuickCartItem(item: BaseCartLine) {
             setStore("cartError", "");
         }
     };
+
     const handleRemoveCartItem = async (cartLineUpdateInput: CartLineUpdateInput) => {
         const cartId = localStorage.getItem(shopifyCartIdLocalStorageKey);
         const response = await updateCartApi(
@@ -36,12 +37,21 @@ function QuickCartItem(item: BaseCartLine) {
             setStore("cartError", "");
         }
     };
+
     return (
         <>
-            <span class="mr-auto">{item.merchandise.title}</span>
-            <span class="mr-2">{formatCurrency(item.cost.totalAmount.amount, item.cost.totalAmount.currencyCode)}</span>
+            <div class="flex flex-col flex-1">
+                <span class="text-xs text-gray-500">{item.merchandise.product?.title}</span>
+                <span class="flex justify-between">
+                    <span class="mr-auto">{item.merchandise.title}</span>
+                    <span class="mr-2">
+                        {formatCurrency(item.cost.totalAmount.amount, item.cost.totalAmount.currencyCode)}
+                    </span>
+                </span>
+            </div>
             <button
                 class="cursor-pointer"
+                aria-label={`remove one ${item.merchandise.title}`}
                 onClick={() =>
                     handleRemoveCartItem({
                         id: item.id,
@@ -51,9 +61,10 @@ function QuickCartItem(item: BaseCartLine) {
             >
                 <SquareMinus />
             </button>
-            <span class="w-4">{item && item.quantity}</span>
+            <span class="w-4 text-center">{item && item.quantity}</span>
             <button
                 class="cursor-pointer"
+                aria-label={`add one ${item.merchandise.title}`}
                 onClick={() =>
                     handleAddCartItem({
                         merchandiseId: item.merchandise.id,
