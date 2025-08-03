@@ -1,3 +1,4 @@
+import { A } from "@solidjs/router";
 import { SquareMinus, SquarePlus } from "lucide-solid";
 import { shopifyCartIdLocalStorageKey } from "~/constants/shopify-cart-id";
 import { addToCartApi, updateCartApi } from "~/lib/cart-api";
@@ -40,7 +41,7 @@ function QuickCartItem(item: BaseCartLine) {
 
     return (
         <>
-            <div class="flex flex-col flex-1">
+            <A href={`/${item.merchandise.product?.handle}`} class="cursor-pointer flex flex-col flex-1">
                 <span class="text-xs text-gray-500">{item.merchandise.product?.title}</span>
                 <span class="flex justify-between">
                     <span class="mr-auto">{item.merchandise.title}</span>
@@ -48,7 +49,7 @@ function QuickCartItem(item: BaseCartLine) {
                         {formatCurrency(item.cost.totalAmount.amount, item.cost.totalAmount.currencyCode)}
                     </span>
                 </span>
-            </div>
+            </A>
             <button
                 class="cursor-pointer"
                 aria-label={`remove one ${item.merchandise.title}`}

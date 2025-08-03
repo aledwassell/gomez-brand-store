@@ -48,6 +48,10 @@ export interface Merchandise {
         amount: string;
         currencyCode: string;
     };
+    product?: {
+        title: string;
+        handle: string;
+    };
 }
 
 export interface CartLineInput {

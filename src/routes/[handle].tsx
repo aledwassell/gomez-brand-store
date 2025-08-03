@@ -85,7 +85,7 @@ export default function ProductPage() {
                 <Title>{getPageTitle(product()?.title)}</Title>
             </Show>
 
-            <button class="cursor-pointer mb-6" onClick={() => navigate(-1)}>
+            <button class="cursor-pointer mb-6" onClick={() => navigate("/")}>
                 <MoveLeft />
             </button>
 

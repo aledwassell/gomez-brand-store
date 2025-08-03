@@ -212,6 +212,10 @@ mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
                 amount
                 currencyCode
               }
+              product {
+                title
+                handle
+              }
             }
           }
         }
@@ -286,6 +290,14 @@ mutation cartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
                 amount
                 currencyCode
               }
+              image {
+                url
+                altText
+              }
+              product {
+                title
+                handle
+              }
             }
           }
         }
@@ -344,6 +356,14 @@ query getCart($cartId: ID!, $country: CountryCode, $language: LanguageCode) @inC
             price {
               amount
               currencyCode
+            }
+            image {
+              url
+              altText
+            }
+            product {
+              title
+              handle
             }
           }
         }
