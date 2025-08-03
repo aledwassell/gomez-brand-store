@@ -1,4 +1,4 @@
-import { ErrorBoundary, Show, For, createSignal } from "solid-js";
+import { ErrorBoundary, Show, For, createSignal, createEffect } from "solid-js";
 import { createAsync, useNavigate, useParams } from "@solidjs/router";
 import { Title } from "@solidjs/meta";
 import { Product, ProductImage } from "~/models/Product.model";
@@ -23,6 +23,14 @@ export default function ProductPage() {
     const [selectedVariantId, setSelectedVariantId] = createSignal<string | null>(null);
     const [showSizeGuide, setShowSizeGuide] = createSignal(false);
     const [cartError, setCartError] = createSignal<string | null>(null);
+
+    createEffect(() => {
+        params.handle;
+        setSelectedImage(undefined);
+        setSelectedVariantId(null);
+        setCartError(null);
+        setShowSizeGuide(false);
+    });
 
     const addItemToCart = async () => {
         if (!selectedVariantId()) {
