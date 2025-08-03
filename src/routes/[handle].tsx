@@ -44,7 +44,7 @@ export default function ProductPage() {
 
         if (response.cart) {
             const { id, checkoutUrl, lines } = response.cart;
-            
+
             setCartError(null);
 
             if (lines) {
@@ -176,7 +176,7 @@ export default function ProductPage() {
                                 </Show>
                             </div>
                             <Show when={cartError()}>
-                                <div class="text-red-500 text-sm mb-2">{cartError()}</div>
+                                {error => <div class="text-red-500 text-sm mb-2">{error()}</div>}
                             </Show>
                             <button
                                 class="btn btn-hollow"
