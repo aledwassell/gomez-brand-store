@@ -8,8 +8,7 @@ import ComingSoon from "./components/ComingSoon";
 import { appTitle } from "./constants/app-title";
 
 export default function App() {
-    const showComingSoon = false;
-    //   const showComingSoon = import.meta.env.MODE === "production";
+    const showComingSoon = import.meta.env.MODE === "production";
 
     return (
         <Router
