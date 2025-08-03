@@ -1,49 +1,50 @@
 @import "tailwindcss";
+@import "./styles/alert.scss";
 @import "./styles/button.scss";
 @import "./styles/table.scss";
 
 body {
-  margin: 0;
-  font-family: "Space Grotesk", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: "Space Grotesk", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-  margin-right: 1rem;
+    margin-right: 1rem;
 }
 
 header {
-  padding: 1rem 0;
+    padding: 1rem 0;
 }
 
 header,
 main,
 footer {
-  max-width: 1500px;
-  width: 100%;
+    max-width: 1500px;
+    width: 100%;
 }
 
 @media (max-width: 1500px) {
-  header,
-  main,
-  footer {
-    max-width: 100%;
-    padding: 0 1.25rem;
-  }
+    header,
+    main,
+    footer {
+        max-width: 100%;
+        padding: 0 1.25rem;
+    }
 
-  header {
-    padding: 1rem 1.25rem;
-  }
+    header {
+        padding: 1rem 1.25rem;
+    }
 }
 
 @media (min-width: 480px) {
-  h1 {
-    max-width: none;
-  }
+    h1 {
+        max-width: none;
+    }
 
-  p {
-    max-width: none;
-  }
+    p {
+        max-width: none;
+    }
 }
