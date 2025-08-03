@@ -12,7 +12,6 @@ function QuickCart() {
     let quickCartRef: HTMLDivElement | undefined;
 
     const [cartPosition, setCartPosition] = createSignal({ top: 0, left: 0 });
-    const [error, setError] = createSignal<string | null>(null);
 
     onMount(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -34,13 +33,13 @@ function QuickCart() {
         getCartApi(localStorage.getItem(shopifyCartIdLocalStorageKey))
             .then(response => {
                 if (response.error) {
-                    setError(response.error);
+                    setStore("cartError", response.error);
                 } else {
                     setStore("checkoutUrl", response.cart?.checkoutUrl ?? "");
                     setStore("cart", response.cart?.lines?.nodes ?? []);
                 }
             })
-            .catch(error => setError(error.message || "Failed to load cart"));
+            .catch(error => setStore("cartError", error.message || "Failed to load cart"));
 
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -167,8 +166,7 @@ function QuickCart() {
                             )}
                         </div>
                     </ErrorBoundary>
-
-                    <div class="mt-4 pt-4 border-t">
+                    <div class="mt-6">
                         <button
                             onClick={() => {
                                 window.location.href = store.checkoutUrl;
@@ -178,7 +176,7 @@ function QuickCart() {
                         >
                             Checkout
                         </button>
-                        {error() && <div class="error">{error()}</div>}
+                        {store.cartError && <div class="error">{store.cartError}</div>}
                     </div>
                 </div>
             </Show>
