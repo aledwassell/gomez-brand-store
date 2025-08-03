@@ -1,8 +1,9 @@
 import { createSignal } from "solid-js";
 import { A } from "@solidjs/router";
-import { StoreProduct } from "~/models/printful/store.product.model";
+import { formatCurrency } from "~/util/format-currency.util";
+import { ProductListItem } from "~/models/product-list-item.model";
 
-function ProductCard(props: StoreProduct) {
+function ProductCard(props: ProductListItem) {
   // Change the images up when they are hovered.
   const [isHovered, setIsHovered] = createSignal(false);
 
@@ -12,16 +13,21 @@ function ProductCard(props: StoreProduct) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <A href={`/${props.id}`} class="cursor-pointer w-full aspect-square">
+      <A href={`/${props.handle}`} class="cursor-pointer w-full aspect-square">
         <img
-          src={isHovered() ? props.thumbnail_url : props.thumbnail_url}
-          alt={isHovered() ? "Hovered image" : "Default image"}
+          src={props.featuredImage?.url}
+          alt={props.featuredImage?.altText}
           class="object-cover"
         />
       </A>
       <p class="my-4 w-full flex justify-between">
-        <span>{props.name}</span>
-        <span class="text-gray-400">10.99</span>
+        <span>{props.title}</span>
+        <span class="text-gray-400">
+          {formatCurrency(
+            props.priceRange.minVariantPrice.amount,
+            props.priceRange.minVariantPrice.currencyCode
+          )}
+        </span>
       </p>
     </div>
   );

@@ -1,0 +1,35 @@
+.table-responsive {
+    @apply my-5 overflow-hidden shadow-2xs bg-slate-100;
+
+    table {
+        @apply w-full border-collapse;
+    }
+
+    td {
+        @apply py-3.5 px-5 border-b border-slate-200;
+    }
+
+    tr:first-child td {
+        @apply bg-slate-700 text-white font-semibold;
+    }
+
+    tr:first-child td:first-child {
+        @apply w-2/5;
+    }
+
+    tr:not(:first-child):hover {
+        @apply bg-slate-50;
+    }
+
+    tr:not(:first-child) td:first-child {
+        @apply font-semibold text-slate-500;
+    }
+
+    tr:not(:first-child) td:last-child {
+        @apply font-semibold text-slate-500 font-mono text-sm;
+    }
+}
+
+.dynamic {
+    @apply block;
+}
