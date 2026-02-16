@@ -130,7 +130,7 @@ export default function ProductPage() {
 
                         <div class="space-y-5 col-span-3 lg:col-span-2">
                             <h1 class="text-4xl font-bold">{product()?.title}</h1>
-                            <p class="font-medium text-xl">
+                            <p class="font-medium text-amber-500 font-mono text-2xl">
                                 {formatCurrency(
                                     price() ?? "",
                                     product()?.priceRange.maxVariantPrice.currencyCode ?? ""
@@ -146,9 +146,8 @@ export default function ProductPage() {
                                                     class="font-bold min-w-10 min-h-10"
                                                     disabled={!variant.availableForSale}
                                                     classList={{
-                                                        "text-gray-500": !variant.availableForSale,
-                                                        "text-emerald-500 underline":
-                                                            selectedVariantId() === variant.id,
+                                                        "text-midnight-900": !variant.availableForSale,
+                                                        "text-gold-400 underline": selectedVariantId() === variant.id,
                                                         "text-white":
                                                             selectedVariantId() !== variant.id &&
                                                             variant.availableForSale,

@@ -42,7 +42,7 @@ function QuickCartItem(item: BaseCartLine) {
     return (
         <>
             <A href={`/${item.merchandise.product?.handle}`} class="cursor-pointer flex flex-col flex-1">
-                <span class="text-xs text-gray-500">{item.merchandise.product?.title}</span>
+                <span class="text-xs">{item.merchandise.product?.title}</span>
                 <span class="flex justify-between">
                     <span class="mr-auto">{item.merchandise.title}</span>
                     <span class="mr-2">

@@ -16,9 +16,12 @@ export default function App() {
                 <MetaProvider>
                     <Meta name="google-adsense-account" content="ca-pub-4783363180748954" />
                     <Title>{appTitle}</Title>
-                    <div class="flex flex-col items-center bg-slate-800 min-h-screen text-white">
+                    <div class="flex flex-col items-center bg-blue-charcoal-950 min-h-screen text-white">
                         {!showComingSoon && (
-                            <header>
+                            <header class="flex justify-between items-center">
+                                <h1 class="text-white font-bold text-3xl">
+                                    IAM<span class="text-amber-500">GOMEZ</span>
+                                </h1>
                                 <ErrorBoundary fallback={err => err}>
                                     <QuickCart />
                                 </ErrorBoundary>
