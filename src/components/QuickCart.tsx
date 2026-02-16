@@ -58,20 +58,21 @@ function QuickCart() {
     return (
         <>
             <button
+                title="show the cart"
                 ref={triggerRef}
                 onClick={() => setStore("isCartOpen", !store.isCartOpen)}
                 class="ml-auto h-10 w-10 flex items-center justify-center text-3xl cursor-pointer relative"
             >
-                <ShoppingCart class="z-10" />
+                <ShoppingCart class="z-10 text-amber-500" />
                 <Show when={store.cart?.length}>
-                    <span class="absolute bg-emerald-500 w-4 h-4 rounded-full top-2 right-2.5"></span>
+                    <span class="absolute bg-midnight-500 w-4 h-4 rounded-full top-2 right-2.5"></span>
                 </Show>
             </button>
 
             <Show when={store.isCartOpen}>
                 <div
                     ref={quickCartRef}
-                    class="fixed bg-white p-4 w-80 max-h-[80vh] flex flex-col"
+                    class="fixed bg-white text-midnight-blue-900 p-4 w-80 max-h-[80vh] flex flex-col"
                     style={{
                         top: `${cartPosition().top}px`,
                         left: `${cartPosition().left}px`,
@@ -79,10 +80,10 @@ function QuickCart() {
                     }}
                 >
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-semibold">Quick Cart</h3>
                         <button
+                            title="close"
                             onClick={() => setStore("isCartOpen", false)}
-                            class="text-gray-500 hover:text-gray-700 cursor-pointer"
+                            class="hover:text-midnight-blue-700 cursor-pointer ml-auto"
                         >
                             <X />
                         </button>
@@ -90,12 +91,12 @@ function QuickCart() {
                     <ErrorBoundary fallback={err => <div>Error: {err.message}</div>}>
                         <div class="flex-1 overflow-y-auto">
                             {store.cart?.length === 0 ? (
-                                <p class="text-gray-500 text-center py-4">Your cart is empty</p>
+                                <p class="text-center py-4">Your cart is empty</p>
                             ) : (
-                                <ul class="space-y-2 text-gray-500">
+                                <ul class="space-y-2">
                                     <For each={store.cart}>
                                         {item => (
-                                            <li class="flex items-center p-2 border-b gap-1">
+                                            <li class="flex items-center p-2 border-b border-midnight-blue-900 gap-1">
                                                 <QuickCartItem {...item} />
                                             </li>
                                         )}

@@ -2,6 +2,7 @@
 @import "./styles/alert.scss";
 @import "./styles/button.scss";
 @import "./styles/table.scss";
+@import "./styles/theme.scss";
 
 body {
     margin: 0;
